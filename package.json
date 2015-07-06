@@ -20,11 +20,14 @@
   "dependencies": {
     "bootstrap": "^3.3.5",
     "express": "^4.13.0",
+    "body-parser": "*",
+    "cors": "*",
     "nodemon": "*",
     "twitter": "*",
     "react": "*",
     "react-tools": "*",
     "rethinkdb": "*",
-    "google-maps": "*"
+    "rethinkdb-init": "*",
+    "q": "*"
   }
 }
