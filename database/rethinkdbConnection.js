@@ -2,6 +2,14 @@ var q = require('q');
 var r = require('rethinkdb');
 require('rethinkdb-init')(r);
 
+/**
+ * Initialzies the database with:
+ * DB: 'locations'
+ * Table(s): 'locations'
+ *   Indexes: 'placeName, point'
+ * See the rethinkdb-init docs on NPM.
+ * @type {String}
+ */
 r.init({
   host: 'localhost', 
   port: 28015, 
@@ -20,11 +28,10 @@ r.init({
       ]
     }
   ])
-    .then(function (conn) {
-      console.log('all tables created');
-      r.conn = conn;
-      r.conn.use(config.get('rethinkdb').db);
-      console.log('all tables created');
-    });
+  .then(function (conn) {
+    console.log('reThinkDB Initialized...');
+    r.conn = conn;
+    r.conn.use(config.get('rethinkdb').db);
+  });
 
 module.exports = r;

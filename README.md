@@ -13,10 +13,11 @@ Uses jQuery, Google Maps API, Supertest, rethinkdb-init, and node-geocoder.
 8. navigate to `localhost:9000`
 
 ####Minor Points:
-- Front-end:
+- Frontend:
   - Screen uses `display : flex`, but is not yet responsive.
-- Back-end: 
-  - Data conversion between LatLng using tuples could have been better done with an object. For example:  `{ lt: 34, lg:-122 }`
+- Backend: 
   - A traditional schema for reThinkDB is possible, but seems unnecessary with `rethink-init`. See `database/rethinkdbConnection.js`, which defines `db` and `table`s.
+  - `/locations/insertOneLocation` 's nested promise callback could be cleaner.
 - Architecture:
   - I decided to only use `POST` requests because the client always needs to transmit its location in case it is new (and needs to be saved). Thus, `locations` controller doesn't respond to `GET` requests.
+  - API Quirks: Google Maps/Geocoder and reThinkDB's geoSpatial querying reverse the order of LatLng numbers. Data conversion between LatLng using tuples could have been better done with an object. For example:  `{ lt: 34, lg:-122 }`

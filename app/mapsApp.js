@@ -141,7 +141,7 @@ if (navigator.geolocation) {
               __LOCAL_MAP_DATA.__ALL_LOCATIONS = res;
               __LOCAL_MAP_DATA.__NEARBY_LOCATIONS = 
                 __LOCAL_MAP_DATA.__ALL_LOCATIONS.filter(function(location, index) {
-                  return (location.dist < 20);
+                  return (location.dist < 40);
                 });
               console.log('length of nearby : ', __LOCAL_MAP_DATA.__NEARBY_LOCATIONS.length);
             })
