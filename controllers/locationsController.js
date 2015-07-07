@@ -1,27 +1,17 @@
 var r = require('../database/rethinkdbConnection');
 var geocoder = require('geocoder');
 
-
-var getLocationCount = function(data, callback) {
-  r.table('locations').count().run(r.conn, function(err, data) {
-    if(err) {
-      return callback && callback(err, null);
-    }
-    return callback && callback(null, data);
-  });
-}
-
 var getAllLocations = function(data, callback) {
-  r.table('locations').count().run(r.conn, function(err, data) {
-    console.log('getAllLocations data:', data);
+  r.table('locations')
+    .count()
+    .run(r.conn, function(err, data) {
     if(err) {
-      console.log('getAllLocations err', err);
+      throw new Error(err);
       return callback && callback(err, null);
     }
     return callback && callback(null, data);
   });
 }
-
 
 var getLocationsNearby = function(data, callback) {
   //from point, radius
@@ -51,7 +41,6 @@ var insertOneLocation = function(data, callback) {
   //Note: Signature: Lat and Long reversed
   var queryPoint = r.point(coordinatesArray[1], coordinatesArray[0]);
   // console.log('queryPoint :', queryPoint);
-  
 
   r.db('locations')
     .table('locations')
@@ -95,7 +84,6 @@ var insertOneLocation = function(data, callback) {
       }
     });
 };
-
 
 module.exports = {
   getAllLocations : getAllLocations,

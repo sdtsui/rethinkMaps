@@ -3,28 +3,23 @@ var locationsRouter = express.Router();
 var locationsController = require('../controllers/locationsController');
 
 locationsRouter
+  //Returns all locations
   .post('/allLocations', function(request, response) {
-    console.log('inside get to locations, sending back JSON');
-    console.log('request.body, inside GET : ', request.body);
     locationsController.getLocationsNearby(request.body, function(err, data) {
-
-      console.log('locationsController callback: err :data', err, data);
       if (err) {
-        console.log('locationsRouter Error: ', err);
-        return response.send("ERROR :", err);
+        throw new Error(err);
       }
+
       return response.send(JSON.stringify(data));
     });
-  })
-  .post('/insertOne', function(request, response) {
-    console.log('locations POST');
-    console.log('request body :', request.body);
 
-    locationsController.insertOneLocation( request.body, function(err, data) {
+  })
+  //Handles a single location insert.
+  .post('/insertOne', function(request, response) {
+    locationsController.insertOneLocation(request.body, function(err, data) {
       if (err) {
-        console.log('err: ', err);
+        throw new Error(err);
       } else {
-        console.log('sending back...');
         response.status(201);
         return response.send(JSON.stringify(data));
       }
@@ -32,9 +27,4 @@ locationsRouter
 
   });
 
-console.log('exporting locationsRouter');
 module.exports = locationsRouter;
-
-
-
-
