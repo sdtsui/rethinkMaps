@@ -1,6 +1,14 @@
 //Contains seed locations for demo. Incomplete. Not yet geocoded.
+var superRequest = require('supertest')('http://localhost:9000');
+// var app = require('../index');
 
-var seedLocations = [
+var makeLatLongArray = function(seedObject) {
+  return {
+    latLong: JSON.stringify(seedObject.location)
+  };
+}
+
+var __SF_SEED = [
   {
     placeName: "2001 Hillside Blvd, Colma, CA 94014",
     location : [37.680573, -122.446698]
@@ -22,3 +30,63 @@ var seedLocations = [
     location : [37.697689, -122.477425]
   }
 ];
+
+var __SEA_SEED = [
+  {
+    placeName: "Sunny in Seattle",
+    location : [47.6208895,-122.2939226]
+  },
+  {
+    placeName: "Sunny in Seattle22",
+    location : [47.6163768,-122.3128912]
+  },
+  {
+    placeName: "Sunny in Seattle333",
+    location : [47.624939,-122.3400137]
+  },
+  {
+    placeName: "Sunny in Seattle4444",
+    location : [47.6092598,-122.3207017]
+  },
+  {
+    placeName: "Simon's Apartment",
+    location : [47.61658651, -122.3520824]
+  }
+];
+
+//Test request, from Simon's Apartment:
+var coordinates = __SEA_SEED[4];
+superRequest
+  .post('/locations/insertOne')
+  .send({latLong : JSON.stringify(
+    [
+    coordinates.location[0],
+    coordinates.location[1]
+    ]
+    )}
+  )
+  .end(function(err, res){
+    return;
+  });
+
+/**
+ * Insert all Seed elements:
+ * @type {[type]}
+ */
+var __SEEDS = __SF_SEED.concat(__SEA_SEED);
+__SEEDS.forEach(function(seedObject, index) {
+  superRequest
+    .post('/locations/insertOne')
+    .send({latLong : JSON.stringify(
+      [
+      seedObject.location[0],
+      seedObject.location[1]
+      ]
+      )}
+    )
+    .end(function(err, res){
+      if (err) {throw new Error(err);}
+      console.log('Attempted to insert coordinates from index:', index);
+      return;
+    });
+});

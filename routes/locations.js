@@ -6,7 +6,7 @@ locationsRouter
   .get('/', function(request, response) {
     console.log('inside get to locations, sending back JSON');
 
-    locationsController.getAllLocations(null, function(err, data) {
+    locationsController.getLocationsNearby(null, function(err, data) {
 
       console.log('locationsController callback: err :data', err, data);
       if (err) {
@@ -29,7 +29,7 @@ locationsRouter
         return response.send(JSON.stringify(data));
       }
     });
-    
+
   });
 
 console.log('exporting locationsRouter');

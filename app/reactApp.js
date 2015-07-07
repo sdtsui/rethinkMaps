@@ -99,7 +99,7 @@ var FilterableLocationsTable = React.createClass({
   }
 });
 
-
+//Make POST here, render after locations returned
 var locations = [
   {
     placeName: "2001 Hillside Blvd, Colma, CA 94014",

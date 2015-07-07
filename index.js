@@ -17,3 +17,4 @@ app.use('/locations', locationsRouter);
 app.listen(port);
 console.log('Listening on PORT ' + port + '....');
 
+module.exports = app;

@@ -25,6 +25,25 @@ var getAllLocations = function(data, callback) {
 
 var getLocationsNearby = function(data, callback) {
   //from point, radius
+  var coordinatesArray = JSON.parse(data.latLong);
+  var queryPoint = r.point(coordinatesArray[1], coordinatesArray[0]);
+  r.db('locations')
+    .table('locations')
+    .getNearest(queryPoint, {
+      index: 'point', 
+      maxResults: 100, 
+      unit: 'mi', 
+      maxDist: 1000
+    })
+    .run(r.conn)
+    .then(function(results, error) {
+      if (error ){ 
+        throw new Error(error);
+      } 
+      console.log('results.length :', results.length);
+      return callback && callback(null, results);
+    });
+
 };
 
 var insertOneLocation = function(data, callback) {
@@ -80,7 +99,7 @@ var insertOneLocation = function(data, callback) {
 
 module.exports = {
   getAllLocations : getAllLocations,
-  getLocations: getLocationsNearby,
+  getLocationsNearby: getLocationsNearby,
   insertOneLocation: insertOneLocation,
   getLocationCount: getLocationCount
 };

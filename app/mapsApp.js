@@ -34,6 +34,21 @@ if (navigator.geolocation) {
     if (!__DEV_MAPOFF) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var coordinates = position.coords;
+        console.log('sending Daata:', {latLong : JSON.stringify([coordinates.latitude,
+             coordinates.longitude])});
+
+        /**
+         * NOW, GET ALL THE THINGS. 
+         * Then add points.
+         * Pass all the points to React's component prop.
+         * Search. DONE.
+         */
+
+
+        /**
+         * Ajax Request to server.
+         * @type {[type]}
+         */
         var request = $.ajax({
           url: "/locations/insertOne",
           type: "POST",
