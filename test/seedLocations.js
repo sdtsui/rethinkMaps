@@ -1,13 +1,7 @@
 //Contains seed locations for demo. Incomplete. Not yet geocoded.
 var superRequest = require('supertest')('http://localhost:9000');
-// var app = require('../index');
-
-var makeLatLongArray = function(seedObject) {
-  return {
-    latLong: JSON.stringify(seedObject.location)
-  };
-}
-
+//SF seeds are pre-geocoded. Seattle seeds are not.
+//
 var __SF_SEED = [
   {
     placeName: "2001 Hillside Blvd, Colma, CA 94014",
@@ -30,7 +24,6 @@ var __SF_SEED = [
     location : [37.697689, -122.477425]
   }
 ];
-
 var __SEA_SEED = [
   {
     placeName: "Sunny in Seattle",
@@ -54,27 +47,13 @@ var __SEA_SEED = [
   }
 ];
 
-//Test request, from Simon's Apartment:
-var coordinates = __SEA_SEED[4];
-superRequest
-  .post('/locations/insertOne')
-  .send({latLong : JSON.stringify(
-    [
-    coordinates.location[0],
-    coordinates.location[1]
-    ]
-    )}
-  )
-  .end(function(err, res){
-    return;
-  });
-
 /**
- * Insert all Seed elements:
+ * Insert all seed locations:
+ * 
  * @type {[type]}
  */
 var __SEEDS = __SF_SEED.concat(__SEA_SEED);
-__SEEDS.forEach(function(seedObject, index) {
+var sendPostForSingleObject = function(seedObject, index) {
   superRequest
     .post('/locations/insertOne')
     .send({latLong : JSON.stringify(
@@ -86,7 +65,11 @@ __SEEDS.forEach(function(seedObject, index) {
     )
     .end(function(err, res){
       if (err) {throw new Error(err);}
+      //"Attempted" because will fail on repeat insertion.
+      //Please see the insert check conditions in 
+      //'../controllers/locationsController'.
       console.log('Attempted to insert coordinates from index:', index);
       return;
     });
-});
+};
+__SEEDS.forEach(sendPostForSingleObject);
