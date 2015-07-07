@@ -31,7 +31,6 @@ r.init({
   .then(function (conn) {
     console.log('reThinkDB Initialized...');
     r.conn = conn;
-    r.conn.use(config.get('rethinkdb').db);
   });
 
 module.exports = r;
