@@ -17,3 +17,13 @@ app.use('/locations', locationsRouter);
 app.listen(port);
 console.log('Listening on PORT ' + port + '....');
 
+var geocoder = require('geocoder');
+console.log('test Geocode');
+geocoder.reverseGeocode(37.680573, -122.446698, function ( err, data ) {
+  // do something with data 
+  if (err) {console.log('err :', err);};
+  var readableAddress = data
+                          .results[0]
+                          .formatted_address;
+  console.log('data : ', readableAddress);
+});

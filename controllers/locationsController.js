@@ -20,6 +20,7 @@ var insertLocation = function(data, callback) {
   //write tests to seed database: insert all locations...
 }
 
+
 module.exports = {
   getAllLocations : getAllLocations,
   getLocations: getLocations,

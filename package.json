@@ -18,16 +18,17 @@
   "license": "MIT",
   "homepage": "rethinkMaps4.herokuapp.com",
   "dependencies": {
-    "bootstrap": "^3.3.5",
-    "express": "^4.13.0",
     "body-parser": "*",
+    "bootstrap": "^3.3.5",
     "cors": "*",
+    "express": "^4.13.0",
+    "geocoder": "^0.2.2",
     "nodemon": "*",
-    "twitter": "*",
+    "q": "*",
     "react": "*",
     "react-tools": "*",
     "rethinkdb": "*",
     "rethinkdb-init": "*",
-    "q": "*"
+    "twitter": "*"
   }
 }
