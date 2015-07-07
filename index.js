@@ -11,10 +11,9 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
+//Routes
 app.use('/locations', locationsRouter);
 
-
+//Listener
 app.listen(port);
 console.log('Listening on PORT ' + port + '....');
-
-module.exports = app;
