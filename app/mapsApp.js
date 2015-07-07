@@ -34,10 +34,8 @@ if (navigator.geolocation) {
     if (!__DEV_MAPOFF) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var coordinates = position.coords;
-        $.AJAX
-
         var request = $.ajax({
-          url: "/locations",
+          url: "/locations/insertOne",
           type: "POST",
           data: {latLong : JSON.stringify([coordinates.latitude,
            coordinates.longitude])},
@@ -47,22 +45,16 @@ if (navigator.geolocation) {
         request.done(function(res, type) {
           console.log("DONE :", res);
           console.log('type :', type);
-          // enqueuedTweets = res.filter(function(newTweet) {
-          //   var found = false;
-          //   seenTweets.forEach(function(seenTweet) {
-          //     if (seenTweet.tweetID === newTweet.tweetID){
-          //       found = true;
-          //     }
-          //   });
-          //   return !found; //want the ones that are not found
-          __USER_LOCATION.mapCenterLat = coordinates.latitude;
-          __USER_LOCATION.mapCenterLng = coordinates.longitude;
+          var coordinates = res;
+          __USER_LOCATION.mapCenterLat = coordinates[0];
+          __USER_LOCATION.mapCenterLng = coordinates[1];
           console.log(__USER_LOCATION);
 
-
+          console.log('done');
           React.render(<GoogleMap/>, 
             document.getElementById('mapContainer'));
-          });
+        });
+        console.log('waiting');
       });
     } else {
       console.log('Dev Mode: Map Off');

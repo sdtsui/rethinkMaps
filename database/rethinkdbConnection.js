@@ -9,10 +9,15 @@ r.init({
   [
     {
       name: 'locations',
-      indexes: [{
-        name: 'place',
-        geo: true
-      }]
+      indexes: [
+        {
+          name: 'placeName'
+        },
+        {
+          name: 'point',
+          geo: true
+        }
+      ]
     }
   ])
     .then(function (conn) {

@@ -16,11 +16,20 @@ locationsRouter
       return response.send(JSON.parse(data));
     });
   })
-  .post('/', function(request, response) {
+  .post('/insertOne', function(request, response) {
     console.log('locations POST');
     console.log('request body :', request.body);
-    response.status(201);
-    return response.send("I SEE YOUR POST");
+
+    locationsController.insertOneLocation( request.body, function(err, data) {
+      if (err) {
+        console.log('err: ', err);
+      } else {
+        console.log('sending back...');
+        response.status(201);
+        return response.send(JSON.stringify(data));
+      }
+    });
+    
   });
 
 console.log('exporting locationsRouter');
