@@ -80,13 +80,16 @@ if (navigator.geolocation) {
         var coordinates = position.coords;
         console.log('sending Data:', {latLong : JSON.stringify([coordinates.latitude,
              coordinates.longitude])});
+        console.log('dev :',__DEV);
         if (__DEV._MOCK.SanFrancisco) {
+          console.log('SF Mock');
           coordinates = {
             latitude : __DEV._MOCK.sfLatLong[0],
             longitude: __DEV._MOCK.sfLatLong[1]
           }
         }
         if (__DEV._MOCK.Seattle) {
+          console.log('SEA Mock');
           coordinates = {
             latitude : __DEV._MOCK.seaLatLong[0],
             longitude: __DEV._MOCK.seaLatLong[1]

@@ -30,7 +30,5 @@
     "rethinkdb": "*",
     "rethinkdb-init": "*",
     "supertest": "^1.0.1",
-    "twitter": "*",
-    "underscore": "^1.8.3"
   }
 }

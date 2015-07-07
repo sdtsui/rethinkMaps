@@ -10,20 +10,37 @@
 }
 
 #searchContainer{
-  flex:1;
-  background:blue;
+  min-width: 30vw;
+  background: #C2BABA;
   height: 100%;
 }
 
 #mapContainer {
   flex:2;
   height: 100%;
-  background:green;
+  background: grey;
 }
-
 
 .mapCanvas {
   flex:1;
   height: 100%;
+  width: 100%;
+}
+
+.locationRowHolder {
+  padding-left: 10px;
+  padding-right: 10px;
+  flex:1;
+  display: flex;
+  flex-direction: column;
+}
+
+.locationRow {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex: 1;
+  min-height: 75px;
   width: 100%;
 }

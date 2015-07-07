@@ -22,7 +22,7 @@ var LocationRow = React.createClass({
         var placeName = this.props.product.placeName;
         return (
             <tr>
-                <td onClick={this.handleClick}>{placeName}</td>
+                <td className='locationRow' onClick={this.handleClick}>{placeName}</td>
             </tr>
         );
     }
@@ -43,7 +43,7 @@ var LocationsTable = React.createClass({
         //Warn: component could use a bunch of styling
         return (
             <table>
-                <tbody>{rows}</tbody>
+                <tbody className='locationRowHolder'>{rows}</tbody>
             </table>
         );
     }
