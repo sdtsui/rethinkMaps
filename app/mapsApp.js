@@ -34,11 +34,35 @@ if (navigator.geolocation) {
     if (!__DEV_MAPOFF) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var coordinates = position.coords;
-        __USER_LOCATION.mapCenterLat = coordinates.latitude;
-        __USER_LOCATION.mapCenterLng = coordinates.longitude;
-        console.log(__USER_LOCATION);
+        $.AJAX
+
+        var request = $.ajax({
+          url: "/locations",
+          type: "POST",
+          data: {latLong : JSON.stringify([coordinates.latitude,
+           coordinates.longitude])},
+          dataType: "json"
+        });
+
+        request.done(function(res, type) {
+          console.log("DONE :", res);
+          console.log('type :', type);
+          // enqueuedTweets = res.filter(function(newTweet) {
+          //   var found = false;
+          //   seenTweets.forEach(function(seenTweet) {
+          //     if (seenTweet.tweetID === newTweet.tweetID){
+          //       found = true;
+          //     }
+          //   });
+          //   return !found; //want the ones that are not found
+          __USER_LOCATION.mapCenterLat = coordinates.latitude;
+          __USER_LOCATION.mapCenterLng = coordinates.longitude;
+          console.log(__USER_LOCATION);
+
+
           React.render(<GoogleMap/>, 
             document.getElementById('mapContainer'));
+          });
       });
     } else {
       console.log('Dev Mode: Map Off');

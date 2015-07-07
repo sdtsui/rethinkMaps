@@ -1,6 +1,15 @@
 var r = require('../database/rethinkdbConnection');
 
 
+var getLocationCount = function(data, callback) {
+  r.table('locations').count().run(r.conn, function(err, data) {
+    if(err) {
+      return callback && callback(err, null);
+    }
+    return callback && callback(null, data);
+  });
+}
+
 var getAllLocations = function(data, callback) {
   r.table('locations').count().run(r.conn, function(err, data) {
     console.log('getAllLocations data:', data);
@@ -11,6 +20,7 @@ var getAllLocations = function(data, callback) {
     return callback && callback(null, data);
   });
 }
+
 
 var getLocations = function(data, callback) {
   //from point, radius
@@ -24,5 +34,6 @@ var insertLocation = function(data, callback) {
 module.exports = {
   getAllLocations : getAllLocations,
   getLocations: getLocations,
-  insertLocation: insertLocation
+  insertLocation: insertLocation,
+  getLocationCount: getLocationCount
 };
