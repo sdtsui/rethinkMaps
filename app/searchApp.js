@@ -1,19 +1,3 @@
-/** @jsx React.DOM */
-
-
-/**
- * Global Handler Functions
- */
-
-// var printAllProps = function() {
-
-// }
-
-
-/**
- * Components
- */
-
 var LocationRow = React.createClass({
     handleClick: function() {
       console.log(this.props);

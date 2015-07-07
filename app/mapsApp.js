@@ -5,6 +5,7 @@ var __LOCAL_MAP_DATA = {
   __ALL_LOCATIONS : null,
   __NEARBY_LOCATIONS: null
 };
+
 var renderMapAndSearch = function() {
   console.log('Rendering Maps');
 
