@@ -1,9 +1,9 @@
 <html>
 <head>
   <title>rethinkMaps</title>
-  <script type="text/javascript" src="./node_modules/react/dist/react.min.js"></script>
-  <script type="text/javascript" src="./node_modules/react/dist/JSXTransformer.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script async type="text/javascript" src="./node_modules/react/dist/react.min.js"></script>
+  <script async type="text/javascript" src="./node_modules/react/dist/JSXTransformer.js"></script>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="./styles/mainApp.css">
@@ -20,8 +20,12 @@
 
 <!-- <script type="text/jsx" src="./app/app.js"></script> -->
 <script type="text/javascript">
-  var __DEV_MAPOFF = false;
-  var __DEV_SEARCHOFF = true;
+  var __DEV = {
+    _MAPOFF : false,
+    _SEARCHOFF : false,
+    _MOCK_SF : false,
+    _MOCK_SEA: false
+  }
 </script>
 <script type="text/jsx" src='./app/mapsApp.js'></script>
 <script type="text/jsx" src='./app/reactApp.js'></script>

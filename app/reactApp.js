@@ -123,7 +123,7 @@ var locations = [
   }
 ];
 
-if (!__DEV_SEARCHOFF) {
+if (!__DEV._SEARCHOFF) {
   React.render(<FilterableLocationsTable locations={locations} />, 
     document.getElementById('searchContainer'));
 }

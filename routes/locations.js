@@ -3,17 +3,17 @@ var locationsRouter = express.Router();
 var locationsController = require('../controllers/locationsController');
 
 locationsRouter
-  .get('/', function(request, response) {
+  .post('/allLocations', function(request, response) {
     console.log('inside get to locations, sending back JSON');
-
-    locationsController.getLocationsNearby(null, function(err, data) {
+    console.log('request.body, inside GET : ', request.body);
+    locationsController.getLocationsNearby(request.body, function(err, data) {
 
       console.log('locationsController callback: err :data', err, data);
       if (err) {
         console.log('locationsRouter Error: ', err);
         return response.send("ERROR :", err);
       }
-      return response.send(JSON.parse(data));
+      return response.send(JSON.stringify(data));
     });
   })
   .post('/insertOne', function(request, response) {
