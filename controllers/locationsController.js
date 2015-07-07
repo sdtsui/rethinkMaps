@@ -77,6 +77,7 @@ var insertOneLocation = function(data, callback) {
               .run(r.conn)
               .then(function(results, err){
                 if (err) {throw new Error(err);}
+                //Always send back the user's location so the app can load.
                 return callback && callback(null, coordinatesArray);
               });
           });
