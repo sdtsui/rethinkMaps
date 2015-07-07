@@ -1,0 +1,29 @@
+#appContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 1vw;
+  padding: 1vw;
+  border-width: 5px;
+  border: black;
+  height: 95vh;
+  width: 95vw;
+}
+
+#searchContainer{
+  flex:1;
+  background:blue;
+  height: 100%;
+}
+
+#mapContainer {
+  flex:2;
+  height: 100%;
+  background:green;
+}
+
+
+.mapCanvas {
+  flex:1;
+  height: 100%;
+  width: 100%;
+}
