@@ -122,8 +122,3 @@ var locations = [
     location : [37.697689, -122.477425]
   }
 ];
-
-if (!__DEV._SEARCHOFF) {
-  React.render(<FilterableLocationsTable locations={locations} />, 
-    document.getElementById('searchContainer'));
-}

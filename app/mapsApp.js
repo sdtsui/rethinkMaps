@@ -5,6 +5,25 @@ var __LOCAL_MAP_DATA = {
   __ALL_LOCATIONS : null,
   __NEARBY_LOCATIONS: null
 };
+var renderMapAndSearch = function() {
+  console.log('Rendering Maps');
+
+  if (!__DEV._SEARCHOFF) {
+    var allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS
+    allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS.reduce(function(locations, rdb_doc) {
+      var newLoc = {
+        placeName : rdb_doc.doc.placeName
+      };
+      locations.push(newLoc);
+      return locations;
+    }, []);
+    console.log('ALLLOCS :', allLocs);
+    React.render(<FilterableLocationsTable locations={allLocs} />, 
+      document.getElementById('searchContainer'));
+  }
+  React.render(<GoogleMap/>, 
+    document.getElementById('mapContainer'));
+}
 
 var GoogleMap = React.createClass({
   getDefaultProps: function () {
@@ -61,6 +80,18 @@ if (navigator.geolocation) {
         var coordinates = position.coords;
         console.log('sending Data:', {latLong : JSON.stringify([coordinates.latitude,
              coordinates.longitude])});
+        if (__DEV._MOCK.SanFrancisco) {
+          coordinates = {
+            latitude : __DEV._MOCK.sfLatLong[0],
+            longitude: __DEV._MOCK.sfLatLong[1]
+          }
+        }
+        if (__DEV._MOCK.Seattle) {
+          coordinates = {
+            latitude : __DEV._MOCK.seaLatLong[0],
+            longitude: __DEV._MOCK.seaLatLong[1]
+          }
+        }
         /**
          * NOW, GET ALL THE THINGS. 
          * Then add points.
@@ -73,13 +104,15 @@ if (navigator.geolocation) {
          * Ajax Request to server.
          * @type {[type]}
          */
-        var request = $.ajax({
+        var map_fetch_promise = $.ajax({
             url: "/locations/insertOne",
             type: "POST",
             data: {latLong : JSON.stringify([coordinates.latitude,
              coordinates.longitude])},
             dataType: "json"
           })
+        console.log('mapfetch then ');
+        map_fetch_promise
           .then(function(res, type) {
             console.log("DONE :", res);
             console.log('type :', type);
@@ -110,12 +143,7 @@ if (navigator.geolocation) {
               console.log('length of nearby : ', __LOCAL_MAP_DATA.__NEARBY_LOCATIONS.length);
             })
           })
-          .done(function() {
-            console.log('Rendering Now...');
-            React.render(<GoogleMap/>, 
-              document.getElementById('mapContainer'));
-
-          });
+          .done(renderMapAndSearch);
         console.log('waiting');
       });
     } else {
