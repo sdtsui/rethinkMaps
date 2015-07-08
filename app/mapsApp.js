@@ -1,11 +1,3 @@
-var __LOCAL_MAP_DATA = {
-  initialZoom: 11, //Refactor: hardcoded calculation
-  mapCenterLat: null,
-  mapCenterLng: null,
-  __ALL_LOCATIONS : null,
-  __NEARBY_LOCATIONS: null
-};
-
 var renderMapAndSearch = function() {
   console.log('Rendering Maps');
 
