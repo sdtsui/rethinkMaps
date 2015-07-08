@@ -1,71 +1,94 @@
-var renderMapAndSearch = function() {
-  console.log('Rendering Maps');
+/**
+ * Helper Functions :
+ */
 
+/**
+ * Renders React components based on development status (data.js)
+ * @return {[type]} [description]
+ */
+var renderComponents = function() {
   if (!__DEV._SEARCHOFF) {
-    var allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS
-    allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS.reduce(function(locations, rdb_doc) {
+    var places = __LOCAL_MAP_DATA.__ALL_LOCATIONS.reduce(function(locations, rdb_doc) {
       var newLoc = {
         placeName : rdb_doc.doc.placeName
       };
       locations.push(newLoc);
       return locations;
     }, []);
-    console.log('ALLLOCS :', allLocs);
-    React.render(<FilterableLocationsTable locations={allLocs} />, 
+
+    React.render(<FilterableLocationsTable locations={places} />, 
       document.getElementById('searchContainer'));
   }
   React.render(<GoogleMap/>, 
     document.getElementById('mapContainer'));
 }
 
+/**
+ * Predicate to determine if nodes nearby
+ * @param  {[type]}  place [description]
+ * @param  {[type]}  index [description]
+ * @return {Boolean}       [description]
+ */
+var isNearby = function(place, index) {
+  return !!(place.dist < __LOCAL_MAP_DATA.maximumPinDistance)
+}
+
+/**
+ * Forces coordinates to Mock, or uses geolocation results.
+ * @param  {[type]} position [description]
+ * @return {[type]}          [description]
+ */
+var determineLatLng = function(position) {
+  var latLng = null;
+  if (__DEV._MOCK.SanFrancisco) {
+    console.log('Developer Mode: San Francisco Mock');
+    result = {
+      latitude : __DEV._MOCK.sfLatLong[0],
+      longitude: __DEV._MOCK.sfLatLong[1]
+    }
+  } else if (__DEV._MOCK.Seattle) {
+    console.log('Developer Mode: Seattle Mock');
+    result = {
+      latitude : __DEV._MOCK.seaLatLong[0],
+      longitude: __DEV._MOCK.seaLatLong[1]
+    }
+  } else {
+    result = position.coords;
+  }
+  
+  return result;
+};
+
+/**
+ * Fetching and Rendering Logic
+ * @param  {[type]} navigator.geolocation [description]
+ * @return {[type]}                       [description]
+ */
 if (navigator.geolocation) {
   if (!__DEV._MAPOFF) {
-    /**
-     * Reminder: Use Mocks to override location to Seattle or San Francisco
-     */
+    //Map is ON:
     navigator.geolocation.getCurrentPosition(function(position) {
-      var coordinates = position.coords;
-      console.log('dev :',__DEV);
-      if (__DEV._MOCK.SanFrancisco) {
-        console.log('SF Mock');
-        coordinates = {
-          latitude : __DEV._MOCK.sfLatLong[0],
-          longitude: __DEV._MOCK.sfLatLong[1]
-        }
-      }
-      if (__DEV._MOCK.Seattle) {
-        console.log('SEA Mock');
-        coordinates = {
-          latitude : __DEV._MOCK.seaLatLong[0],
-          longitude: __DEV._MOCK.seaLatLong[1]
-        }
-      }
-
-      /**
-       * Ajax Request to server.
-       * @type {[type]}
-       */
-      var map_fetch_promise = $.ajax({
+      var coordinates = determineLatLng(position);
+      //1st AJAX call to send location to server
+      var fetchMapData = $.ajax({
           url: "/locations/insertOne",
           type: "POST",
           data: {latLong : JSON.stringify([coordinates.latitude,
            coordinates.longitude])},
           dataType: "json"
-        })
+      });
 
-      map_fetch_promise
+      //then center map
+      fetchMapData
         .then(function(res, type) {
-          console.log("DONE :", res);
-          console.log('type :', type);
           var coordinates = res;
           __LOCAL_MAP_DATA.mapCenterLat = coordinates[0];
           __LOCAL_MAP_DATA.mapCenterLng = coordinates[1];
           console.log(__LOCAL_MAP_DATA);
-          console.log('done setting user location');
         })
+      //then get all of the locations and render
         .then(function() {
-          console.log('Get all the things');
-          //get all of the locations
+          //2nd AJAX call for locations to search
           return $.ajax({
           url: "/locations/allLocations",
           type: "POST",
@@ -74,17 +97,11 @@ if (navigator.geolocation) {
           dataType: "json"
           })
           .done(function(res, type) {
-            console.log('inside done of GET ajax');
-            console.log("DONE :", res);
             __LOCAL_MAP_DATA.__ALL_LOCATIONS = res;
-            __LOCAL_MAP_DATA.__NEARBY_LOCATIONS = 
-              __LOCAL_MAP_DATA.__ALL_LOCATIONS.filter(function(location, index) {
-                return (location.dist < 40);
-              });
-            console.log('length of nearby : ', __LOCAL_MAP_DATA.__NEARBY_LOCATIONS.length);
-          })
+            __LOCAL_MAP_DATA.__NEARBY_LOCATIONS = res.filter(isNearby);
+          });
         })
-        .done(renderMapAndSearch);
+        .done(renderComponents);
     });
   } else {
     console.log('Dev Mode: Map Off');

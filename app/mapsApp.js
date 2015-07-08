@@ -1,6 +1,6 @@
 var GoogleMap = React.createClass({
   getDefaultProps: function () {
-    return __LOCAL_MAP_DATA;
+    return __LOCAL_MAP_DATA;//global: see data.js and init.js
   },
   componentDidMount: function (rootNode) {
     var mapOptions = {
@@ -9,6 +9,8 @@ var GoogleMap = React.createClass({
     };
 
     map = new google.maps.Map(this.getDOMNode(), mapOptions);
+
+    //drop a pin for each nearby location
     this.props.__NEARBY_LOCATIONS.forEach(function(location, index) {
       var newPoint = new google.maps.Marker({
         position: this.localPointLatLng(index),
@@ -16,6 +18,8 @@ var GoogleMap = React.createClass({
         map: map
       });
     }.bind(this));
+
+    //drop a marker for the user & use center of map
     var marker = new google.maps.Marker({
       position: this.mapCenterLatLng(), 
       title: 'User Location', 
@@ -29,6 +33,7 @@ var GoogleMap = React.createClass({
 
     return new google.maps.LatLng(props.mapCenterLat, props.mapCenterLng);
   },
+  //create a new maps LatLng object, for pin creation in componentDidMount
   localPointLatLng: function(idx) {
     var props = this.props;
     var newPin = {
