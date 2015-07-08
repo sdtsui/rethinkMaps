@@ -1,3 +1,23 @@
+var renderMapAndSearch = function() {
+  console.log('Rendering Maps');
+
+  if (!__DEV._SEARCHOFF) {
+    var allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS
+    allLocs = __LOCAL_MAP_DATA.__ALL_LOCATIONS.reduce(function(locations, rdb_doc) {
+      var newLoc = {
+        placeName : rdb_doc.doc.placeName
+      };
+      locations.push(newLoc);
+      return locations;
+    }, []);
+    console.log('ALLLOCS :', allLocs);
+    React.render(<FilterableLocationsTable locations={allLocs} />, 
+      document.getElementById('searchContainer'));
+  }
+  React.render(<GoogleMap/>, 
+    document.getElementById('mapContainer'));
+}
+
 if (navigator.geolocation) {
   if (!__DEV._MAPOFF) {
     /**

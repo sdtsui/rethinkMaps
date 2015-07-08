@@ -1,24 +1,25 @@
 <html>
-<head>
-  <title>rethinkMaps</title>
-  <script async type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script async type="text/javascript" src="./app/data.js"></script>
-  <script type="text/javascript" src="./node_modules/react/dist/react.min.js"></script>
-  <script type="text/javascript" src="./node_modules/react/dist/JSXTransformer.js"></script>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="./styles/mainApp.css">
-  <!-- Google Maps API : -->
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-</head>
+  <head>
+    <title>rethinkMaps</title>
+    <script async type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script async type="text/javascript" src="./app/data.js"></script>
+    <script type="text/javascript" src="./node_modules/react/dist/react.min.js"></script>
+    <script type="text/javascript" src="./node_modules/react/dist/JSXTransformer.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./styles/mainApp.css">
+    <!-- Google Maps API : -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+  </head>
 
-<body>
-  <div id="appContainer">
-    <div id="searchContainer"></div>    
-    <div id="mapContainer"></div>
-  </div>
-</body>
+  <body>
+    <div id="appContainer">
+      <div id="searchContainer"></div>    
+      <div id="mapContainer"></div>
+    </div>
+  </body>
 
-<script type="text/jsx" src='./app/searchApp.js'></script>
-<script type="text/jsx" src='./app/mapsApp.js'></script>
+  <script type="text/jsx" src='./app/searchApp.js'></script>
+  <script type="text/jsx" src='./app/mapsApp.js'></script>
+  <script type="text/jsx" src='./app/init.js'></script>
 </html>
